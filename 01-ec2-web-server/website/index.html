@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hosting a Static Website on AWS EC2 using Nginx</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="header">
+  <h1>Hosting a Static Website on AWS EC2 using Nginx</h1>
+  <p>A step-by-step walkthrough of hosting a static website on AWS EC2 using Nginx</p>
+</header>
+
+<main class="main">
+
+  <div class="full-card">
+    <h2>Task: How to host a simple website on AWS EC2 using Nginx</h2>
+    <p>Follow the steps below to host a website on an EC2 instance using Nginx.</p>
+    <button onclick="startTask()">Start Task</button>
+  </div>
+
+  <div id="flow" class="flow hidden">
+
+    <div class="row hidden" id="step-1">
+      <div class="card">
+        <h2>Step 1: Network Setup</h2>
+        <ul>
+          <li>Create a VPC with private IP range <b>10.0.0.0/16</b></li>
+          <li>Create a public subnet with CIDR <b>10.0.1.0/24</b></li>
+          <li>Enable auto-assign public IPv4 for instances</li>
+        </ul>
+        <button onclick="showStep(2)">Next</button>
+      </div>
+      <div class="image">
+        <img src="images/vpc_subnet.jpg" />
+      </div>
+    </div>
+
+    <div class="row-arrows hidden" id="arrows-1">
+      <div class="arrow">⬇</div>
+      <div class="arrow">⬇</div>
+    </div>
+
+    <div class="row hidden" id="step-2">
+      <div class="card">
+        <h2>Step 2: Internet Connectivity</h2>
+        <ul>
+          <li>Create and attach an Internet Gateway to the VPC</li>
+          <li>Add an internet route <b>0.0.0.0/0 → Internet Gateway</b> in the route table</li>
+          <li>Associate the route table with the public subnet</li>
+        </ul>
+        <button onclick="showStep(3)">Next</button>
+      </div>
+      <div class="image">
+        <img src="images/igw_rtb.jpg" />
+      </div>
+    </div>
+
+    <div class="row-arrows hidden" id="arrows-2">
+      <div class="arrow">⬇</div>
+      <div class="arrow">⬇</div>
+    </div>
+
+    <div class="row hidden" id="step-3">
+      <div class="card">
+        <h2>Step 3: Security Configuration</h2>
+        <ul>
+          <li>Create a security group for the EC2 instance</li>
+          <li>Allow inbound SSH access on port <b>22</b> for administration</li>
+          <li>Allow inbound HTTP access on port <b>80</b> for web traffic</li>
+          <li>Use default outbound rules</li>
+        </ul>
+        <button onclick="showStep(4)">Next</button>
+      </div>
+      <div class="image">
+        <img src="images/sg.jpg" />
+      </div>
+    </div>
+
+    <div class="row-arrows hidden" id="arrows-3">
+      <div class="arrow">⬇</div>
+      <div class="arrow">⬇</div>
+    </div>
+
+    <div class="row hidden" id="step-4">
+      <div class="card">
+        <h2>Step 4: Launch EC2</h2>
+        <ul>
+          <li>Launch an EC2 instance using an <b>Ubuntu AMI</b></li>
+          <li>Select instance type <b>t2.micro</b> (Free Tier eligible)</li>
+          <li>Choose the previously created public subnet and security group</li>
+          <li>Verify the public IPv4 address in the EC2 instance details</li>
+
+        </ul>
+        <button onclick="showStep(5)">Next</button>
+      </div>
+      <div class="image">
+        <img src="images/ec2.jpg" />
+      </div>
+    </div>
+
+    <div class="row-arrows hidden" id="arrows-4">
+      <div class="arrow">⬇</div>
+      <div class="arrow">⬇</div>
+    </div>
+
+    
+    <div class="row hidden" id="step-5">
+      <div class="card">
+        <h2>Step 5: Web Server Setup</h2>
+        <ul>
+          <li>Connect to the EC2 instance using SSH</li>
+          <li>Install and start the <b>Nginx</b> web server</li>
+          <li>Verify using the default Nginx page</li>
+        </ul>
+        <button onclick="showStep(6)">Next</button>
+      </div>
+      <div class="image">
+        <img src="images/web_server_setup.jpg" />
+      </div>
+    </div>
+
+    <div class="row-arrows hidden" id="arrows-5">
+      <div class="arrow">⬇</div>
+      <div class="arrow">⬇</div>
+    </div>
+
+    <div class="row hidden" id="step-6">
+      <div class="card">
+        <h2>Step 6: Website Deployment</h2>
+        <ul>
+          <li>Remove the default Nginx page</li>
+          <li>Deploy your static website files to <b>/var/www/html</b></li>
+          <li>Verify your website access using the EC2 public IP</li>
+        </ul>
+        <button onclick="showStep(7)">Next</button>
+      </div>
+      <div class="image">
+        <img src="images/static_website.png" />
+      </div>
+    </div>
+
+    <div class="row-arrows hidden" id="arrows-6">
+      <div class="arrow">⬇</div>
+      <div class="arrow">⬇</div>
+    </div>
+
+    <div class="row hidden" id="step-7">
+      <div class="card">
+        <h2>Step 7: Cost Safety</h2>
+        <ul>
+          <li>Stop the EC2 instance after testing</li>
+          <li>Confirm instance state is <b>Stopped</b></li>
+          <li>Avoid unnecessary cloud charges</li>
+        </ul>
+        <button onclick="completeTask()">Finish</button>
+      </div>
+      <div class="image">
+        <img src="images/ec2_stop.png" />
+      </div>
+    </div>
+
+  </div>
+
+  <div class="full-card hidden" id="completion">
+    <h2>Task Completed</h2> 
+    <p>Thank you for going through this walkthrough.</p>
+  </div>
+
+</main>
+
+<footer class="footer">
+  <p>AWS | EC2 | Nginx</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
