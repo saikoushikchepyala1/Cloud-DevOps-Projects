@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Serverless Guestbook | AWS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="header">
+  <h1>Serverless Guestbook Application</h1>
+  <p>A fully serverless web application built using AWS Lambda, API Gateway and DynamoDB</p>
+</header>
+
+<main class="container">
+
+  <!-- Submit Message -->
+  <section class="card">
+    <h2>Submit a Message</h2>
+    <p class="desc">Messages are stored securely using AWS serverless services.</p>
+
+    <input type="text" id="name" placeholder="Your name" />
+    <textarea id="message" placeholder="Your message"></textarea>
+
+    <button onclick="submitMessage()">Submit Message</button>
+
+    <div id="status"></div>
+  </section>
+
+  <section class="card">
+    <h2>Guestbook Messages</h2>
+
+    <button onclick="toggleMessages()">View Messages</button>
+
+    <div id="messages" style="display:none; margin-top:15px;"></div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <p>AWS Lambda • API Gateway • DynamoDB • Serverless Architecture</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
