@@ -1,4 +1,4 @@
-const API_URL = "https://b5prxo0sb2.execute-api.eu-north-1.amazonaws.com/prod/messages";
+const API_URL = "https://YOUR_API_ID.execute-api.YOUR_REGION.amazonaws.com/prod/messages";
 
 let messagesVisible = false;
 
