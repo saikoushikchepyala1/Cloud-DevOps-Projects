@@ -82,26 +82,26 @@ User / Engineer
 - AWS IAM Roles
 - Apache Web Server
 - Amazon CloudWatch Agent
-OB- Amazon Linux
-OB- Linux Command Line
+- Amazon Linux
+- Linux Command Line
 
 ---
-OB
 
-OB## Step-by-Step Implementation
 
-OB### Step 1: Create Security Group
-OB
-OB- Create a security group named: ` ec2-monitor-sg-03 `
+## Step-by-Step Implementation
+
+### Step 1: Create Security Group
+
+- Create a security group named: ` ec2-monitor-sg-03 `
   
-OB**Inbound rules:**
+**Inbound rules:**
   - SSH (22) → ` Your IP `
   - HTTP (80) → ` 0.0.0.0/0 `
-OBOB
+
 - Attach this security group to both EC2 instances.
 
 **Result:** Both EC2 instances are accessible via SSH, and the web server can be accessed over HTTP.
-OB
+
 ---
 
 
@@ -110,8 +110,8 @@ User / Engineer
 - Create two EC2 instances to be monitored.
 
 **Instance names:**
-OB  - `ec2-monitor-01`
-  - `ec2-monitor-02`
+ - `ec2-monitor-01`
+ - `ec2-monitor-02`
 
 **Common configuration for both instances:**
   - AMI: **Amazon Linux (Free Tier eligible)**
