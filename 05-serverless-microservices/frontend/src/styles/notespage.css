@@ -1,0 +1,37 @@
+.app-layout {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-body {
+  flex: 1;
+  display: flex;
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+  background: #fafafa;
+}
+
+.search-bar {
+  max-width: 600px;
+  margin: 0 auto 25px;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  font-size: 15px;
+  background: white;
+  outline: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); 
+}
+
+.search-bar input:focus {
+  outline: none;
+  border-color: #6366f1;
+}

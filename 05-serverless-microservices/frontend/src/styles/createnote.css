@@ -1,0 +1,107 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 120px;
+  z-index: 1000;
+}
+
+.note-modal {
+  width: 700px;
+  max-width: 90%;
+  min-height: 430px;
+  max-height: 80vh;
+
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  padding: 16px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.note-header {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.note-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.note-title {
+  font-size: 22px;
+  font-weight: 500;
+  cursor: text;
+  border: none;
+  outline: none;
+}
+
+.note-text {
+  font-size: 15px;
+  line-height: 1.6;
+  resize: none;
+  border: none;
+  outline: none;
+  height: 350px;        
+  overflow-y: auto;    
+}
+
+.note-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.note-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #374151;
+
+  width: 36px;
+  height: 36px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 8px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.icon-btn:hover {
+  background: #e5e7eb;
+}
+
+.icon-btn.active {
+  background: #e0e7ff;
+  color: #1e3a8a;
+}
+
+.save-btn {
+  background: #4f46e5;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.save-btn:hover {
+  background: #4338ca;
+}

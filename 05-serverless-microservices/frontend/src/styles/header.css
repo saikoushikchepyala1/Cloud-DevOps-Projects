@@ -1,0 +1,97 @@
+.app-header {
+  height: 85px;                
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  background: #1f2937;
+  color: white;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  margin-right: 16px;
+}
+
+.menu-btn {
+  font-size: 26px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.header-center {
+  flex: none;              
+  margin: 0 auto;          
+  display: flex;
+  justify-content: center;
+}
+
+
+.header-center h1 {
+  font-size: 40px;
+  font-weight: 500;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 30px;                   
+}
+
+.settings-icon {
+  font-size: 27px;
+  cursor: pointer;
+  color: #e5e7eb;
+}
+
+.settings-icon:hover {
+  color: white;
+}
+
+.settings-wrapper {
+  position: relative;
+  padding: 9px;
+  height: 44px;
+  width: unset;
+}
+
+.settings-menu {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  width: 180px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 1000;
+}
+
+.settings-menu button {
+  padding: 12px 16px;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.settings-menu button:hover {
+  background: #f3f4f6;
+}
+
+.profile {
+  width: 36px;
+  height: 36px;
+  background: #4f46e5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 15px;
+}

@@ -1,0 +1,97 @@
+.note-card {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 14px;
+  height: 320px;
+  box-shadow: 0 12px 10px rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.15s ease;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.note-card:hover {
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+}
+
+.note-title {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 12px;
+  color: #111827;
+}
+
+.note-content {
+  font-size: 14px;
+  color: #374151;
+  line-height: 2.0;
+  white-space: pre-wrap;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+
+  line-clamp: 6;
+  -webkit-line-clamp: 6;
+
+
+  overflow: hidden;
+}
+
+.note-pin-indicator {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1e3a8a;
+  margin-bottom: 6px;
+}
+
+.note-card.locked {
+  cursor: not-allowed;
+  background: #f3f4f6;
+}
+
+.note-locked-placeholder {
+  font-size: 14px;
+  color: #6b7280;
+  font-style: italic;
+  margin-top: 12px;
+}
+
+.trash-card {
+  opacity: 0.75;
+  cursor: default;
+}
+
+.trash-card:hover {
+  box-shadow: none;
+}
+
+.trash-actions {
+  margin-top: 12px;
+  display: flex;
+  gap: 8px;
+}
+
+.restore-btn {
+  background: #087b55;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.restore-btn:hover {
+  background: #066144;
+}
+
+.delete-forever-btn {
+  background: #ab1616;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.delete-forever-btn:hover {
+  background: #a31414;
+}
