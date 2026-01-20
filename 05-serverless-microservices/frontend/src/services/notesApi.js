@@ -1,6 +1,6 @@
 import { fetchAuthSession } from "aws-amplify/auth";
 
-const API_BASE_URL = "https://vqlxm4he2d.execute-api.us-east-1.amazonaws.com/dev";
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 async function getAuthHeader() {
   const session = await fetchAuthSession();
