@@ -69,6 +69,24 @@ export async function setLockedPassword(password) {
   if (!res.ok) throw new Error("Failed to set password");
 }
 
+export async function verifyAccountPassword(accountPassword) {
+  const headers = await getAuthHeader();
+  const res = await fetch(`${API_BASE_URL}/security/locked`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({
+      action: "verifyAccount",
+      accountPassword
+    })
+  });
+
+  if (!res.ok) {
+    throw new Error("Account verification failed");
+  }
+
+  return res.json();
+}
+
 export async function verifyLockedPassword(password) {
   const headers = await getAuthHeader();
   const res = await fetch(`${API_BASE_URL}/security/locked`, {
@@ -76,16 +94,5 @@ export async function verifyLockedPassword(password) {
     headers,
     body: JSON.stringify({ action: "verify", password })
   });
-  if (!res.ok) return false;
-  return true;
-}
-
-export async function resetLockedPassword() {
-  const headers = await getAuthHeader();
-  const res = await fetch(`${API_BASE_URL}/security/locked`, {
-    method: "POST",
-    headers,
-    body: JSON.stringify({ action: "reset" })
-  });
-  if (!res.ok) throw new Error("Failed to reset password");
+  return res.ok;
 }

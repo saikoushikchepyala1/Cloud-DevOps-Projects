@@ -39,6 +39,7 @@ export default function LockedSectionModal({ onUnlock, onClose, onForgot }) {
         await setLockedPassword(password.trim());
         setHasLockedPassword(true);
         setPassword("");
+        onClose();
         return;
       }
 
@@ -49,18 +50,26 @@ export default function LockedSectionModal({ onUnlock, onClose, onForgot }) {
       }
 
       onUnlock(password.trim());
+      onClose();
     } catch {
       setError("Unable to process request");
     }
   }
 
-  if (loading) return null;
+  if (loading) {
+    return null;
+  }
 
   return (
     <div className="locked-overlay">
       <div className="locked-modal">
         <div className="locked-modal-header">
-          <button className="locked-close-btn" onClick={onClose}>×</button>
+          <button
+            className="locked-close-btn"
+            onClick={onClose}
+          >
+            ×
+          </button>
         </div>
 
         <div className="locked-modal-body">
@@ -71,6 +80,8 @@ export default function LockedSectionModal({ onUnlock, onClose, onForgot }) {
           </h3>
 
           <input
+            id="locked-section-password"
+            name="lockedSectionPassword"
             type="password"
             placeholder={
               hasLockedPassword
@@ -86,16 +97,26 @@ export default function LockedSectionModal({ onUnlock, onClose, onForgot }) {
           />
 
           {hasLockedPassword && (
-            <button className="link-button" onClick={onForgot}>
+            <button
+              className="link-button"
+              onClick={onForgot}
+            >
               Forgot locked password?
             </button>
           )}
 
-          {error && <div className="locked-error">{error}</div>}
+          {error && (
+            <div className="locked-error">
+              {error}
+            </div>
+          )}
         </div>
 
         <div className="locked-modal-footer">
-          <button className="locked-unlock-btn" onClick={handlePrimaryAction}>
+          <button
+            className="locked-unlock-btn"
+            onClick={handlePrimaryAction}
+          >
             {hasLockedPassword ? "Unlock" : "Set Password"}
           </button>
         </div>

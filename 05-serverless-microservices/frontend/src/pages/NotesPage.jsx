@@ -1,19 +1,19 @@
-import { useEffect, useState } from "react";
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
-import NotesGrid from "../components/NotesGrid";
-import CreateNote from "../components/CreateNote";
-import FloatingCreateButton from "../components/FloatingCreateButton";
-import LockedSectionModal from "../components/LockedSectionModal";
-import VerifyAccountPasswordModal from "../components/VerifyAccountPasswordModal";
+import { useEffect, useState } from "react"
+import Header from "../components/Header"
+import Sidebar from "../components/Sidebar"
+import NotesGrid from "../components/NotesGrid"
+import CreateNote from "../components/CreateNote"
+import FloatingCreateButton from "../components/FloatingCreateButton"
+import LockedSectionModal from "../components/LockedSectionModal"
+import VerifyAccountPasswordModal from "../components/VerifyAccountPasswordModal"
 import {
   fetchNotes,
   createNote,
   updateNote as updateNoteApi,
   deleteNote as deleteNoteApi,
   verifyLockedPassword
-} from "../services/notesApi";
-import "../styles/notespage.css";
+} from "../services/notesApi"
+import "../styles/notespage.css"
 
 export default function NotesPage({
   user,
@@ -24,122 +24,136 @@ export default function NotesPage({
   lockedUnlocked,
   setLockedUnlocked
 }) {
-  const [collapsed, setCollapsed] = useState(false);
-  const [showCreate, setShowCreate] = useState(false);
-  const [editingNote, setEditingNote] = useState(null);
-  const [activeView, setActiveView] = useState("notes");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [showLockedModal, setShowLockedModal] = useState(false);
-  const [showVerifyModal, setShowVerifyModal] = useState(false);
+  const [collapsed, setCollapsed] = useState(false)
+  const [showCreate, setShowCreate] = useState(false)
+  const [editingNote, setEditingNote] = useState(null)
+  const [activeView, setActiveView] = useState("notes")
+  const [searchQuery, setSearchQuery] = useState("")
+  const [showLockedModal, setShowLockedModal] = useState(false)
+  const [showVerifyModal, setShowVerifyModal] = useState(false)
 
   const userId =
     user?.attributes?.sub ||
     user?.signInDetails?.loginId ||
-    user?.username;
+    user?.username
 
   useEffect(() => {
-    setNotes([]);
-    setLockedUnlocked(false);
-    setActiveView("notes");
+    setNotes([])
+    setLockedUnlocked(false)
+    setActiveView("notes")
 
     fetchNotes()
       .then(setNotes)
-      .catch(() => showToast("Failed to load notes"));
-  }, [userId]);
+      .catch(() => showToast("Failed to load notes"))
+  }, [userId])
 
   async function addNote(note) {
+    const tempNote = { ...note, noteId: Date.now().toString() }
+    setNotes(prev => [tempNote, ...prev])
+    showToast("Note created")
+
     try {
-      const saved = await createNote(note);
-      setNotes(prev => [saved, ...prev]);
+      const saved = await createNote(note)
+      setNotes(prev =>
+        prev.map(n => n.noteId === tempNote.noteId ? saved : n)
+      )
     } catch {
-      showToast("Failed to create note");
+      setNotes(prev => prev.filter(n => n.noteId !== tempNote.noteId))
+      showToast("Failed to create note")
     }
   }
 
   function updateNote(updatedNote) {
+    const oldNotes = [...notes]
     setNotes(prev =>
-      prev.map(n =>
-        n.noteId === updatedNote.noteId ? updatedNote : n
-      )
-    );
+      prev.map(n => n.noteId === updatedNote.noteId ? updatedNote : n)
+    )
 
     updateNoteApi(updatedNote).catch(() => {
-      showToast("Failed to update note");
-    });
+      setNotes(oldNotes)
+      showToast("Failed to update note")
+    })
   }
 
   function openCreate() {
-    setEditingNote(null);
-    setShowCreate(true);
+    setEditingNote(null)
+    setShowCreate(true)
   }
 
   function openEdit(note) {
-    if (note.isDeleted) return;
+    if (note.isDeleted) return
 
     if (note.isLocked && activeView !== "locked") {
-      setShowLockedModal(true);
-      return;
+      setShowLockedModal(true)
+      return
     }
 
-    setEditingNote(note);
-    setShowCreate(true);
+    setEditingNote(note)
+    setShowCreate(true)
   }
 
   async function unlockLockedSection(password) {
     try {
-      const success = await verifyLockedPassword(password);
+      const success = await verifyLockedPassword(password)
       if (!success) {
-        showToast("Incorrect password");
-        return;
+        showToast("Incorrect password")
+        return
       }
 
-      setLockedUnlocked(true);
-      setActiveView("locked");
-      setShowLockedModal(false);
+      setLockedUnlocked(true)
+      setActiveView("locked")
+      setShowLockedModal(false)
     } catch {
-      showToast("Error unlocking locked section");
+      showToast("Error unlocking locked section")
     }
   }
 
   function restoreNote(note) {
+    const oldNotes = [...notes]
     const restored = {
       ...note,
       isDeleted: false,
       isLocked: note.deletedFrom === "locked",
       isArchived: note.deletedFrom === "archive",
-      deletedFrom: null
-    };
+      deletedFrom: null,
+      updatedAt: new Date().toISOString()
+    }
 
     setNotes(prev =>
-      prev.map(n =>
-        n.noteId === restored.noteId ? restored : n
-      )
-    );
+      prev.map(n => n.noteId === restored.noteId ? restored : n)
+    )
 
     updateNoteApi(restored).catch(() => {
-      showToast("Failed to restore note");
-    });
+      setNotes(oldNotes)
+      showToast("Failed to restore note")
+    })
 
-    showToast("Note restored");
+    showToast("Note restored")
   }
 
   function permanentlyDeleteNote(noteId) {
-    setNotes(prev => prev.filter(n => n.noteId !== noteId));
+    const oldNotes = [...notes]
+    setNotes(prev => prev.filter(n => n.noteId !== noteId))
 
     deleteNoteApi(noteId).catch(() => {
-      showToast("Failed to delete note");
-    });
+      setNotes(oldNotes)
+      showToast("Failed to delete note")
+    })
 
-    showToast("Note permanently deleted");
+    showToast("Note permanently deleted")
   }
 
   const viewFilteredNotes = notes.filter(note => {
-    if (activeView === "notes") return !note.isArchived && !note.isLocked && !note.isDeleted;
-    if (activeView === "archive") return note.isArchived && !note.isDeleted;
-    if (activeView === "locked") return note.isLocked && !note.isDeleted;
-    if (activeView === "trash") return note.isDeleted;
-    return false;
-  });
+    if (activeView === "notes")
+      return !note.isArchived && !note.isLocked && !note.isDeleted
+    if (activeView === "archive")
+      return note.isArchived && !note.isDeleted
+    if (activeView === "locked")
+      return note.isLocked && !note.isDeleted
+    if (activeView === "trash")
+      return note.isDeleted
+    return false
+  })
 
   const visibleNotes = viewFilteredNotes
     .filter(
@@ -148,10 +162,10 @@ export default function NotesPage({
         note.content.toLowerCase().includes(searchQuery.toLowerCase())
     )
     .sort((a, b) => {
-      if (a.isPinned && !b.isPinned) return -1;
-      if (!a.isPinned && b.isPinned) return 1;
-      return new Date(b.createdAt) - new Date(a.createdAt);
-    });
+      if (a.isPinned && !b.isPinned) return -1
+      if (!a.isPinned && b.isPinned) return 1
+      return new Date(b.createdAt) - new Date(a.createdAt)
+    })
 
   return (
     <div className="app-layout">
@@ -163,9 +177,9 @@ export default function NotesPage({
           user?.username
         }
         onLogout={() => {
-          setNotes([]);
-          setLockedUnlocked(false);
-          signOut();
+          setNotes([])
+          setLockedUnlocked(false)
+          signOut()
         }}
       />
 
@@ -175,15 +189,15 @@ export default function NotesPage({
           activeView={activeView}
           onChangeView={view => {
             if (activeView === "locked" && view !== "locked") {
-              setLockedUnlocked(false);
+              setLockedUnlocked(false)
             }
 
             if (view === "locked" && !lockedUnlocked) {
-              setShowLockedModal(true);
-              return;
+              setShowLockedModal(true)
+              return
             }
 
-            setActiveView(view);
+            setActiveView(view)
           }}
         />
 
@@ -206,7 +220,9 @@ export default function NotesPage({
             activeView={activeView}
             onNoteClick={openEdit}
             onRestore={activeView === "trash" ? restoreNote : null}
-            onPermanentDelete={activeView === "trash" ? permanentlyDeleteNote : null}
+            onPermanentDelete={
+              activeView === "trash" ? permanentlyDeleteNote : null
+            }
           />
 
           {showCreate && (
@@ -216,17 +232,15 @@ export default function NotesPage({
               onUpdateNote={updateNote}
               onClose={() => setShowCreate(false)}
               showToast={showToast}
-              userId={userId}
             />
           )}
 
           {showLockedModal && (
             <LockedSectionModal
-              userId={userId}
               onUnlock={unlockLockedSection}
               onForgot={() => {
-                setShowLockedModal(false);
-                setShowVerifyModal(true);
+                setShowLockedModal(false)
+                setShowVerifyModal(true)
               }}
               onClose={() => setShowLockedModal(false)}
             />
@@ -234,12 +248,11 @@ export default function NotesPage({
 
           {showVerifyModal && (
             <VerifyAccountPasswordModal
-              userId={userId}
               onVerified={() => {
-                setLockedUnlocked(false);
-                setActiveView("notes");
-                showToast("Locked section password reset successfully");
-                setShowVerifyModal(false);
+                setLockedUnlocked(false)
+                setActiveView("notes")
+                showToast("Locked section password reset successfully")
+                setShowVerifyModal(false)
               }}
               onClose={() => setShowVerifyModal(false)}
             />
@@ -249,5 +262,5 @@ export default function NotesPage({
 
       <FloatingCreateButton onClick={openCreate} />
     </div>
-  );
+  )
 }

@@ -2,11 +2,14 @@
   background: #ffffff;
   border-radius: 8px;
   padding: 14px;
-  height: 320px;
+  height: 340px;
   box-shadow: 0 12px 10px rgba(0, 0, 0, 0.06);
   transition: box-shadow 0.15s ease;
   cursor: pointer;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .note-card:hover {
@@ -21,20 +24,19 @@
 }
 
 .note-content {
-  font-size: 14px;
+  font-size: 17px;
   color: #374151;
-  line-height: 2.0;
+  line-height: 1.65;
   white-space: pre-wrap;
   display: -webkit-box;
-  -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
-
-  line-clamp: 6;
-  -webkit-line-clamp: 6;
-
-
-  overflow: hidden;
+  -webkit-line-clamp: 5; 
+  line-clamp: 5;
+  overflow: hidden;     
+  flex-grow: 1;
+  overflow-wrap: break-word;
 }
+
 
 .note-pin-indicator {
   font-size: 12px;
@@ -56,7 +58,7 @@
 }
 
 .trash-card {
-  opacity: 0.75;
+  opacity: 1.75;
   cursor: default;
 }
 
@@ -65,13 +67,13 @@
 }
 
 .trash-actions {
-  margin-top: 12px;
+  margin-top: auto;
   display: flex;
-  gap: 8px;
+  gap: 20px;
 }
 
 .restore-btn {
-  background: #087b55;
+  background: #0b996a;
   color: white;
   border: none;
   padding: 6px 10px;
@@ -80,11 +82,11 @@
 }
 
 .restore-btn:hover {
-  background: #066144;
+  background: #0b996a;
 }
 
 .delete-forever-btn {
-  background: #ab1616;
+  background: #ae1515;
   color: white;
   border: none;
   padding: 6px 10px;
@@ -93,5 +95,5 @@
 }
 
 .delete-forever-btn:hover {
-  background: #a31414;
+  background: #ae1515;
 }

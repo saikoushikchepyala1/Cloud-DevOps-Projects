@@ -32,14 +32,22 @@ export default function CreateNote({
       setIsArchived(!!note.isArchived);
       setIsLocked(!!note.isLocked);
       setIsPinned(!!note.isPinned);
+    } else {
+      setTitle("");
+      setContent("");
+      setIsArchived(false);
+      setIsLocked(false);
+      setIsPinned(false);
     }
   }, [note]);
 
   function handleSave() {
-    if (!title && !content) return;
+    if (!title && !content) {
+      return;
+    }
 
-    const wasArchived = note?.isArchived;
-    const wasLocked = note?.isLocked;
+    const wasArchived = !!note?.isArchived;
+    const wasLocked = !!note?.isLocked;
 
     const finalNote = {
       noteId: note?.noteId,
@@ -53,19 +61,31 @@ export default function CreateNote({
       updatedAt: new Date().toISOString(),
     };
 
-    note ? onUpdateNote(finalNote) : onAddNote(finalNote);
+    if (note) {
+      onUpdateNote(finalNote);
+    } else {
+      onAddNote(finalNote);
+    }
 
-    if (!note) showToast("Note created");
-    else if (!wasArchived && isArchived) showToast("Note moved to Archive");
-    else if (!wasLocked && isLocked) showToast("Note locked");
-    else if ((wasArchived || wasLocked) && !isArchived && !isLocked) showToast("Note moved to Notes Section");
-    else showToast("Note updated");
+    if (!note) {
+      showToast("Note created");
+    } else if (!wasArchived && isArchived) {
+      showToast("Note moved to Archive");
+    } else if (!wasLocked && isLocked) {
+      showToast("Note locked");
+    } else if ((wasArchived || wasLocked) && !isArchived && !isLocked) {
+      showToast("Note moved to Notes Section");
+    } else {
+      showToast("Note updated");
+    }
 
     onClose();
   }
 
   function handleDelete() {
-    if (!note) return;
+    if (!note) {
+      return;
+    }
 
     const deletedNote = {
       ...note,
@@ -91,7 +111,9 @@ export default function CreateNote({
         <div className="note-header">
           <button
             className={`icon-btn ${isPinned ? "active" : ""}`}
-            onClick={() => setIsPinned(!isPinned)}
+            onClick={() => {
+              setIsPinned(!isPinned);
+            }}
           >
             <Pin size={20} />
           </button>
@@ -102,12 +124,14 @@ export default function CreateNote({
 
         <div className="note-body">
           <input
-            id="note-title"
-            name="note-title"
-            className="note-title"
+            id="note-title-input"
+            name="note-title-input"
+            className="note-title-input"
             placeholder="Title"
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => {
+              setTitle(e.target.value);
+            }}
           />
           <textarea
             id="note-content"
@@ -115,16 +139,26 @@ export default function CreateNote({
             className="note-text"
             placeholder="Take a note…"
             value={content}
-            onChange={(e) => setContent(e.target.value)}
+            onChange={(e) => {
+              setContent(e.target.value);
+            }}
           />
         </div>
 
         <div className="note-footer">
           <div className="note-actions">
-            <button className="icon-btn"><Palette size={20} /></button>
-            <button className="icon-btn"><Type size={20} /></button>
-            <button className="icon-btn"><CheckSquare size={20} /></button>
-            <button className="icon-btn"><Image size={20} /></button>
+            <button className="icon-btn" title="Change background color (coming soon)">
+              <Palette size={20} />
+            </button>
+            <button className="icon-btn" title="Change font style (coming soon)">
+              <Type size={20} />
+            </button>
+            <button className="icon-btn" title="Add checklist (coming soon)">
+              <CheckSquare size={20} />
+            </button>
+            <button className="icon-btn" title="Add image (coming soon)">
+              <Image size={20} />
+            </button>
 
             <button
               className={`icon-btn ${isArchived ? "active" : ""}`}
@@ -147,7 +181,7 @@ export default function CreateNote({
             </button>
 
             {note && (
-              <button className="icon-btn" onClick={handleDelete}>
+              <button className="icon-btn" onClick={handleDelete} title="Move to Trash">
                 <Trash2 size={20} />
               </button>
             )}
