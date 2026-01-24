@@ -20,6 +20,12 @@
 
 ---
 
+## Live Demo
+
+Live application URL: https://main.d2ihhb04mfca8w.amplifyapp.com
+
+---
+
 ## Architecture
 
 ```
