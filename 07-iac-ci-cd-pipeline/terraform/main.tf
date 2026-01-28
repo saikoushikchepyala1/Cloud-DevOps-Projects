@@ -1,3 +1,5 @@
+# Trigger Project-07 CI run
+
 resource "aws_vpc" "this" {
   cidr_block = "10.10.0.0/16"
   tags = { Name = "project-07-vpc" }
