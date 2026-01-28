@@ -4,9 +4,11 @@ variable "aws_region" {
 }
 
 variable "key_pair_name" {
-  type = string
+  type    = string
+  default = "terraform-ec2-key"
 }
 
 variable "allowed_ssh_cidr" {
-  type = string
+  type    = string
+  default = "157.48.148.43/32"
 }
