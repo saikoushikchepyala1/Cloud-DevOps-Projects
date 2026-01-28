@@ -1,4 +1,4 @@
-# 2nd Trigger Project-07 CI run
+# Trigger Project-07 CI pipeline run
 
 resource "aws_vpc" "this" {
   cidr_block = "10.10.0.0/16"
