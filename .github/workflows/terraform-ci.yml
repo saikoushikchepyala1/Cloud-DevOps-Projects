@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main ]
     paths:
-      - "07-iac-ci-cd-pipeline/**"
+      - "07-iac-ci-cd-pipeline/terraform/**"
 
 jobs:
   terraform:
@@ -39,4 +39,3 @@ jobs:
       - name: Terraform Apply
         working-directory: 07-iac-ci-cd-pipeline/terraform
         run: terraform apply -auto-approve
-

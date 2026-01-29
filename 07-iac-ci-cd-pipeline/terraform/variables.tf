@@ -10,5 +10,5 @@ variable "key_pair_name" {
 
 variable "allowed_ssh_cidr" {
   type    = string
-  default = "157.48.148.43/32"
+  default = "157.48.150.39/32"
 }
